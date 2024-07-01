@@ -6,7 +6,7 @@
 /*   By: moztop <moztop@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 19:15:22 by moztop            #+#    #+#             */
-/*   Updated: 2024/07/01 03:03:27 by moztop           ###   ########.fr       */
+/*   Updated: 2024/07/01 05:13:00 by moztop           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,6 @@ int	clr_grad(t_meta *meta)
 
 void	clear_image(t_meta *meta)
 {
-	char	*dst;
 	int		x;
 	int		y;
 
@@ -107,10 +106,6 @@ void	clear_image(t_meta *meta)
 	{
 		x = 350;
 		while (++x < WIN_X)
-		{
-			dst = meta->wins.img.addr + (y * meta->wins.img.line_length
-					+ x * (meta->wins.img.bits_per_pixel / 8));
-			*(unsigned int *)dst = 0x0;
-		}
+			ft_put_pixel(meta, x, y, 0);
 	}
 }
