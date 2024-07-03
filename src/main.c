@@ -6,7 +6,7 @@
 /*   By: moztop <moztop@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 16:49:49 by moztop            #+#    #+#             */
-/*   Updated: 2024/07/01 02:45:03 by moztop           ###   ########.fr       */
+/*   Updated: 2024/07/03 20:48:39 by moztop           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ void	mlx_destroy_event(t_meta *content)
 
 void	init_content(t_meta *meta)
 {
-	meta->map.loaded = 0;
 	meta->map.z_max = -2147483648;
 	meta->map.z_min = 2147483647;
 	meta->opts.angle = 30;
@@ -37,6 +36,7 @@ void	init_content(t_meta *meta)
 	meta->wins.win = NULL;
 	meta->wins.mlx = NULL;
 	meta->wins.img.img = NULL;
+	meta->map.pts = NULL;
 }
 
 void	init_mlx_contents(t_meta *meta)
@@ -62,8 +62,8 @@ int	main(int argc, char **argv)
 	t_meta	meta;
 
 	init_content(&meta);
-	check_args(&meta, argc, argv);
 	meta.file = argv[1];
+	check_args(&meta, argc);
 	check_file(&meta);
 	init_mlx_contents(&meta);
 	load_map(&meta);

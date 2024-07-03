@@ -6,12 +6,12 @@
 /*   By: moztop <moztop@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 19:32:50 by moztop            #+#    #+#             */
-/*   Updated: 2024/07/01 03:02:58 by moztop           ###   ########.fr       */
+/*   Updated: 2024/07/03 20:22:32 by moztop           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/fdf.h"
-#include "../inc/system.h"
+#include "../inc_bonus/fdf_bonus.h"
+#include "../inc_bonus/system_bonus.h"
 #include "../lib/libft/libft.h"
 #include <fcntl.h>
 #include <unistd.h>
@@ -69,32 +69,45 @@ void	load_points(t_meta *meta, char *ln)
 	clean_array(row);
 }
 
-void	set_opts(t_meta *meta)
+void	set_scale(t_meta *meta)
 {
-	if (meta->map.p_i < 400)
-		meta->opts.scl = 50;
-	else if (meta->map.p_i < 1000)
-		meta->opts.scl = 30;
-	else if (meta->map.p_i < 2500)
-		meta->opts.scl = 25;
-	else if (meta->map.p_i < 10000)
-		meta->opts.scl = 15;
-	else if (meta->map.p_i < 80000)
-		meta->opts.scl = 10;
+	int	width;
+	int	height;
+
+	width = (WIN_X - MNU_MRGN) / meta->map.clm / 2;
+	height = WIN_Y / meta->map.row / 2;
+	if (height > width)
+		meta->opts.scl = width;
 	else
-		meta->opts.scl = 5;
+		meta->opts.scl = height;
+	if (meta->opts.scl < 3)
+		meta->opts.scl = 3;
+}
+
+void	set_center_values(t_meta *meta)
+{
 	meta->ln.st = meta->map.pts[0];
 	meta->ln.end = meta->map.pts[(meta->map.clm * meta->map.row) - 1];
-	scale_map(meta);
-	project_isometric(meta);
-	meta->map.yzero = meta->ln.y0;
-	meta->map.height = meta->ln.y1 - meta->ln.y0;
+	project_map(meta);
+	if (meta->ln.y0 < meta->ln.y1)
+		meta->map.yzero = meta->ln.y0;
+	else
+		meta->map.yzero = meta->ln.y1;
+	if (meta->ln.y1 - meta->ln.y0 > 0)
+		meta->map.height = meta->ln.y1 - meta->ln.y0;
+	else
+		meta->map.height = meta->ln.y0 - meta->ln.y1;
 	meta->ln.st = meta->map.pts[(meta->map.clm * (meta->map.row - 1))];
 	meta->ln.end = meta->map.pts[meta->map.clm - 1];
-	scale_map(meta);
-	project_isometric(meta);
-	meta->map.xzero = meta->ln.x0;
-	meta->map.width = meta->ln.x1 - meta->ln.x0;
+	project_map(meta);
+	if (meta->ln.x0 < meta->ln.x1)
+		meta->map.xzero = meta->ln.x0;
+	else
+		meta->map.yzero = meta->ln.x1;
+	if (meta->ln.x1 - meta->ln.x0 > 0)
+		meta->map.width = meta->ln.x1 - meta->ln.x0;
+	else
+		meta->map.width = meta->ln.x0 - meta->ln.x1;
 }
 
 void	load_map(t_meta *meta)
@@ -120,7 +133,7 @@ void	load_map(t_meta *meta)
 		ln = get_next_line(filed);
 	}
 	close(filed);
-	set_opts(meta);
 	ft_putendl_fd(MSG_LOADED, 1);
-	meta->map.loaded = 1;
+	set_scale(meta);
+	set_center_values(meta);
 }

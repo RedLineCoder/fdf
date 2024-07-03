@@ -6,22 +6,27 @@
 /*   By: moztop <moztop@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 16:22:19 by moztop            #+#    #+#             */
-/*   Updated: 2024/07/01 03:01:51 by moztop           ###   ########.fr       */
+/*   Updated: 2024/07/03 19:47:31 by moztop           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SYSTEM_H
-# define SYSTEM_H
+#ifndef SYSTEM_BONUS_H
+# define SYSTEM_BONUS_H
 
 // Window Utils
 
 # define WIN_X 1920	
 # define WIN_Y 1080
+# define MNU_MRGN 300
 # define TITLE "FdF - moztop"
 
 // Keys
 
 # define ESCAPE	53
+# define ARR_LEFT 123
+# define ARR_RGHT 124
+# define ARR_DOWN 125
+# define ARR_UP 126
 
 // File Utils
 

@@ -6,14 +6,13 @@
 /*   By: moztop <moztop@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 17:36:40 by moztop            #+#    #+#             */
-/*   Updated: 2024/07/01 03:03:18 by moztop           ###   ########.fr       */
+/*   Updated: 2024/07/03 20:50:39 by moztop           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/fdf.h"
-#include "../inc/system.h"
+#include "../inc_bonus/fdf_bonus.h"
+#include "../inc_bonus/system_bonus.h"
 #include "../lib/libft/libft.h"
-#include <stdlib.h>
 
 void	free_content(t_meta *meta)
 {
@@ -22,8 +21,6 @@ void	free_content(t_meta *meta)
 		mlx_destroy_image(meta->wins.mlx, meta->wins.img.img);
 	if (meta->wins.win)
 		mlx_destroy_window(meta->wins.mlx, meta->wins.win);
-	if (meta->wins.mlx)
-		free(meta->wins.mlx);
 }
 
 void	exit_safe(t_meta *meta, int exit_no, char *log)
@@ -34,23 +31,23 @@ void	exit_safe(t_meta *meta, int exit_no, char *log)
 	exit(exit_no);
 }
 
-void	filetype_check(char *file)
+void	filetype_check(t_meta *meta)
 {
 	int	len;
 
-	if (!file || !file[0])
-		exit_safe(NULL, 1, ERR_FILE);
-	len = ft_strlen(file);
+	if (!meta->file || !meta->file[0])
+		exit_safe(meta, 1, ERR_FILE);
+	len = ft_strlen(meta->file);
 	if (len < 4)
-		exit_safe(NULL, 1, ERR_FNL);
-	else if (ft_strncmp(file + (len - 4), ".fdf", 4) != 0)
-		exit_safe(NULL, 1, ERR_FILE);
+		exit_safe(meta, 1, ERR_FNL);
+	if (ft_strncmp(meta->file + (len - 4), FILE_EXT, 4) != 0)
+		exit_safe(meta, 1, ERR_FILE);
 }
 
-void	check_args(t_meta *meta, int argc, char **argv)
+void	check_args(t_meta *meta, int argc)
 {
 	if (argc != 2)
 		exit_safe(meta, 1, ERR_ARG);
 	else
-		filetype_check(argv[1]);
+		filetype_check(meta);
 }

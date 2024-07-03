@@ -6,37 +6,21 @@
 /*   By: moztop <moztop@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 16:49:49 by moztop            #+#    #+#             */
-/*   Updated: 2024/07/01 03:02:47 by moztop           ###   ########.fr       */
+/*   Updated: 2024/07/03 21:07:24 by moztop           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/fdf.h"
-#include "../inc/system.h"
+#include "../inc_bonus/fdf_bonus.h"
+#include "../inc_bonus/system_bonus.h"
 #include <stdlib.h>
-
-int	key_hooks(int keysym, t_meta *meta)
-{
-	if (keysym == ESCAPE)
-		exit_safe(meta, 0, NULL);
-	return (0);
-}
-
-void	mlx_destroy_event(t_meta *content)
-{
-	exit_safe(content, 0, NULL);
-}
 
 void	init_content(t_meta *meta)
 {
-	meta->map.loaded = 0;
 	meta->map.z_max = -2147483648;
 	meta->map.z_min = 2147483647;
-	meta->opts.angle = 30;
 	meta->opts.clr_h = 0xA3218D;
 	meta->opts.clr_l = 0x32A895;
-	meta->wins.win = NULL;
-	meta->wins.mlx = NULL;
-	meta->wins.img.img = NULL;
+	meta->opts.alt = 1;
 }
 
 void	init_mlx_contents(t_meta *meta)
@@ -59,17 +43,20 @@ void	init_mlx_contents(t_meta *meta)
 
 int	main(int argc, char **argv)
 {
-	t_meta	meta;
+	t_meta *const	meta = &(t_meta){0};
 
-	init_content(&meta);
-	check_args(&meta, argc, argv);
-	meta.file = argv[1];
-	check_file(&meta);
-	init_mlx_contents(&meta);
-	load_map(&meta);
-	draw_map(&meta);
-	mlx_key_hook(meta.wins.win, &key_hooks, &meta);
-	mlx_hook(meta.wins.win, 17, 0, (void *)mlx_destroy_event, &meta);
-	mlx_loop(meta.wins.mlx);
-	exit_safe(&meta, 0, NULL);
+	init_content(meta);
+	meta->file = argv[1];
+	check_args(meta, argc);
+	check_file(meta);
+	init_mlx_contents(meta);
+	load_map(meta);
+	draw_map(meta);
+	mlx_hook(meta->wins.win, 2, 1L << 0, key_press, meta);
+	mlx_hook(meta->wins.win, 3, 1L << 1, key_release, meta);
+	mlx_mouse_hook(meta->wins.win, mouse_event_handler, meta);
+	mlx_loop_hook(meta->wins.mlx, (void *)loop_hook, meta);
+	mlx_hook(meta->wins.win, 17, 0, (void *)mlx_destroy_event, meta);
+	mlx_loop(meta->wins.mlx);
+	exit_safe(meta, 0, NULL);
 }

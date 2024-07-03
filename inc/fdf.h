@@ -6,7 +6,7 @@
 /*   By: moztop <moztop@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 16:47:11 by moztop            #+#    #+#             */
-/*   Updated: 2024/07/01 02:48:43 by moztop           ###   ########.fr       */
+/*   Updated: 2024/07/03 20:32:34 by moztop           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	draw_map(t_meta *meta);
 // System
 
 void	exit_safe(t_meta *meta, int exit_no, char *log);
-void	check_args(t_meta *meta, int argc, char **argv);
+void	check_args(t_meta *meta, int argc);
 
 // Map Loaders
 
@@ -42,7 +42,6 @@ void	center_landscape(t_meta *meta);
 
 int		clean_array(char **table);
 int		get_color(const char *str);
-void	clear_image(t_meta *meta);
 int		clr_grad(t_meta *meta);
 
 #endif

@@ -6,13 +6,12 @@
 /*   By: moztop <moztop@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 14:30:07 by moztop            #+#    #+#             */
-/*   Updated: 2024/07/01 02:43:28 by moztop           ###   ########.fr       */
+/*   Updated: 2024/07/03 20:10:40 by moztop           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/fdf.h"
 #include "../inc/system.h"
-#include <stdlib.h>
 
 void	ft_put_pixel(t_meta *meta, int x, int y, int color)
 {
@@ -56,8 +55,14 @@ void	bresenham_line(t_meta *meta)
 	scale_map(meta);
 	project_isometric(meta);
 	center_landscape(meta);
-	meta->ln.dx = abs(meta->ln.x1 - meta->ln.x0);
-	meta->ln.dy = -abs(meta->ln.y1 - meta->ln.y0);
+	if (meta->ln.x1 - meta->ln.x0 > 0)
+		meta->ln.dx = meta->ln.x1 - meta->ln.x0;
+	else
+		meta->ln.dx = meta->ln.x0 - meta->ln.x1;
+	if (meta->ln.y1 - meta->ln.y0 > 0)
+		meta->ln.dy = -(meta->ln.y1 - meta->ln.y0);
+	else
+		meta->ln.dy = -(meta->ln.y0 - meta->ln.y1);
 	meta->ln.sx = 1;
 	meta->ln.sy = 1;
 	if (meta->ln.x1 < meta->ln.x0)

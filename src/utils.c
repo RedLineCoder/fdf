@@ -6,7 +6,7 @@
 /*   By: moztop <moztop@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 19:15:22 by moztop            #+#    #+#             */
-/*   Updated: 2024/07/01 05:12:36 by moztop           ###   ########.fr       */
+/*   Updated: 2024/07/03 20:32:25 by moztop           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,18 +94,4 @@ int	clr_grad(t_meta *meta)
 	meta->opts.blu = (clr_s & 0xFF)
 		+ ratio * ((clr_e & 0xFF) - (clr_s & 0xFF));
 	return ((meta->opts.red << 16) | (meta->opts.grn << 8) | meta->opts.blu);
-}
-
-void	clear_image(t_meta *meta)
-{
-	int		x;
-	int		y;
-
-	y = -1;
-	while (++y < WIN_Y)
-	{
-		x = 350;
-		while (++x < WIN_X)
-			ft_put_pixel(meta, x, y, 0);
-	}
 }

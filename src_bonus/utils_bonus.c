@@ -6,12 +6,12 @@
 /*   By: moztop <moztop@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 19:15:22 by moztop            #+#    #+#             */
-/*   Updated: 2024/07/01 05:13:00 by moztop           ###   ########.fr       */
+/*   Updated: 2024/07/03 20:08:03 by moztop           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/fdf.h"
-#include "../inc/system.h"
+#include "../inc_bonus/fdf_bonus.h"
+#include "../inc_bonus/system_bonus.h"
 #include "../lib/libft/libft.h"
 
 int	clean_array(char **table)
@@ -72,7 +72,7 @@ int	ft_set_colors(t_meta *meta, t_point point)
 		* ((meta->ln.clr_e & 0xFF) - (meta->ln.clr_s & 0xFF));
 	if (point.clr)
 		return (point.clr);
-	if (meta->map.z_max == meta->map.z_min)
+	if (meta->map.z_max == meta->map.z_min || meta->opts.alt == 0)
 		return (meta->opts.clr_l);
 	return ((red << 16) | (green << 8) | blue);
 }
@@ -85,8 +85,16 @@ int	clr_grad(t_meta *meta)
 
 	clr_s = ft_set_colors(meta, meta->ln.st);
 	clr_e = ft_set_colors(meta, meta->ln.end);
-	ratio = (double)(meta->ln.y0 - meta->ln.tmp_y)
-		/ (meta->ln.y1 - meta->ln.tmp_y);
+	if (meta->ln.dx > -meta->ln.dy)
+	{
+		ratio = (double)(meta->ln.x0 - meta->ln.tmp_x)
+			/ (meta->ln.x1 - meta->ln.tmp_x);
+	}
+	else
+	{
+		ratio = (double)(meta->ln.y0 - meta->ln.tmp_y)
+			/ (meta->ln.y1 - meta->ln.tmp_y);
+	}
 	meta->opts.red = ((clr_s >> 16) & 0xFF)
 		+ ratio * (((clr_e >> 16) & 0xFF) - ((clr_s >> 16) & 0xFF));
 	meta->opts.grn = ((clr_s >> 8) & 0xFF)
@@ -104,7 +112,7 @@ void	clear_image(t_meta *meta)
 	y = -1;
 	while (++y < WIN_Y)
 	{
-		x = 350;
+		x = -1;
 		while (++x < WIN_X)
 			ft_put_pixel(meta, x, y, 0);
 	}

@@ -6,7 +6,7 @@
 /*   By: moztop <moztop@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 16:51:49 by moztop            #+#    #+#             */
-/*   Updated: 2024/07/01 02:00:02 by moztop           ###   ########.fr       */
+/*   Updated: 2024/07/03 20:21:16 by moztop           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ typedef struct s_map
 	int				c_i;
 	int				z_min;
 	int				z_max;
-	int				loaded;
 	int				width;
 	int				height;
 	int				xzero;
